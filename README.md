@@ -2,6 +2,8 @@
 
 This is a demo project which demoes how to create a multivendor marketplace demo using [Medusa 2.0](https://medusajs.com/)
 
+Detailed article on Medium https://medium.com/@igorkhomenko/building-a-multivendor-marketplace-with-medusa-js-2-0-a-dev-guide-f55aec971126
+
 ![1_EMHanavMVUIrwCw4_ROoiw](https://github.com/user-attachments/assets/c2cee973-7704-4843-8da4-8c5e877cdc8e)
 
 
@@ -19,3 +21,6 @@ npx medusa db:setup --db marketplace
 yarn dev
 ```
 
+## License
+
+MIT
