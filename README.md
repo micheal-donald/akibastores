@@ -21,6 +21,8 @@ npx medusa db:setup --db marketplace
 yarn dev
 ```
 
+The Medusa dashboard should now be running on http://localhost:9000/app
+
 ## License
 
 MIT
