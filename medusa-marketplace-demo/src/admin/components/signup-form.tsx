@@ -30,7 +30,7 @@ export default function SignUpForm() {
     }
 
     try {
-      const response = await fetch(`${__BACKEND_URL__}/create-store`, {
+      const response = await fetch(`/create-store`, {
         body: JSON.stringify({ store_name: storeName, email, password }),
         headers: {
           "Content-Type": "application/json",
