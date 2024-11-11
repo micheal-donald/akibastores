@@ -37,5 +37,14 @@ export default defineMiddlewares({
         moveIdsToQueryFromFilterableFields,
       ],
     },
+
+    {
+      method: ["GET"],
+      matcher: "/admin/stores",
+      middlewares: [
+        addStoreIdToFilterableFields,
+        moveIdsToQueryFromFilterableFields,
+      ],
+    },
   ],
 });
