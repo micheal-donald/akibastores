@@ -9,10 +9,13 @@ Detailed article on Medium https://medium.com/@igorkhomenko/building-a-multivend
 
 ## How to run 
 
+Run dependant services:
+
 ```
 docker compose up
 ```
 
+Run the app:
 ```
 cd medusa-marketplace-demo
 yarn
