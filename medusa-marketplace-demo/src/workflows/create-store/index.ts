@@ -7,6 +7,7 @@ import { createStoresWorkflow } from "@medusajs/medusa/core-flows";
 
 import { linkUserToStoreStep } from "./steps/link-user-to-store";
 import { createUserStep } from "./steps/create-user";
+import { getSalesChannelStep } from "./steps/get-sales-channel";
 
 export type CreateStoreInput = {
   store_name: string;
@@ -20,12 +21,15 @@ export type CreateStoreInput = {
 export const createStoreWorkflow = createWorkflow(
   "create-store",
   (input: CreateStoreInput) => {
+    const salesChannel = getSalesChannelStep();
+    
     const stores = createStoresWorkflow.runAsStep({
       input: {
         stores: [
           {
             name: input.store_name,
             supported_currencies: [{ currency_code: "usd", is_default: true }],
+            default_sales_channel_id: salesChannel.id
           },
         ],
       },
