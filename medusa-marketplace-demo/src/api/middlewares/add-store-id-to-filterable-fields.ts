@@ -6,8 +6,17 @@ import {
 import { ContainerRegistrationKeys } from "@medusajs/framework/utils";
 import { UserDTO } from "@medusajs/framework/types";
 
-export async function addStoreIdToFilterableFields(req: MedusaRequest, res: MedusaResponse, next: MedusaNextFunction) {
-  const loggedInUser = req.scope.resolve("loggedInUser") as UserDTO;
+export async function addStoreIdToFilterableFields(
+  req: MedusaRequest,
+  res: MedusaResponse,
+  next: MedusaNextFunction
+) {
+  const loggedInUser = req.scope.resolve("loggedInUser", {
+    allowUnregistered: true,
+  }) as UserDTO;
+  if (!loggedInUser) {
+    return next();
+  }
 
   const query = req.scope.resolve(ContainerRegistrationKeys.QUERY);
 
@@ -29,4 +38,4 @@ export async function addStoreIdToFilterableFields(req: MedusaRequest, res: Medu
   }
 
   return next();
-};
+}

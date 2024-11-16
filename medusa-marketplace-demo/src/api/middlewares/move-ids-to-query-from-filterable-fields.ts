@@ -9,9 +9,12 @@ export async function moveIdsToQueryFromFilterableFields(
   res: MedusaResponse,
   next: MedusaNextFunction
 ) {
-  // do this, otherwise the 'filterableFields' will be overwritten in
-  // https://github.com/medusajs/medusa/blob/develop/packages/medusa/src/api/admin/products/middlewares.ts#L49
+  if (!req.filterableFields) {
+    return next();
+  }
   if (req.filterableFields.id) {
+    // do this, otherwise the 'filterableFields' will be overwritten in
+    // https://github.com/medusajs/medusa/blob/develop/packages/medusa/src/api/admin/products/middlewares.ts#L49
     req.query["id"] = req.filterableFields.id as string[];
   } else if (req.filterableFields.store_id) {
     req.query["id"] = req.filterableFields.store_id as string;
