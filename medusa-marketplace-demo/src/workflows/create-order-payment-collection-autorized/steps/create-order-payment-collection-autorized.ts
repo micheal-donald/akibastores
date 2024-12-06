@@ -10,8 +10,6 @@ export const createOrderPaymentCollectionAutorizedStep = createStep(
       Modules.PAYMENT
     );
 
-    console.log("input.status", input.status);
-
     // create payment
     const paymentCollections =
       await paymentModuleService.createPaymentCollections([
