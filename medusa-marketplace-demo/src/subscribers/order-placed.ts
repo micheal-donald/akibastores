@@ -100,7 +100,7 @@ export default async function orderPlacedHandler({
           ...sm,
           id: undefined,
         })),
-        metadata: { parentOrderId: order.id, transactionHash: "123" },
+        // metadata: {  },
       });
 
       // copy payment
@@ -125,9 +125,10 @@ export default async function orderPlacedHandler({
         },
       });
     }
-  }
 
-  console.log(`The order ${order.id} was created`);
+    // delete origin order
+    await orderModuleService.deleteOrders(order.id);
+  }
 }
 
 // subscriber config
