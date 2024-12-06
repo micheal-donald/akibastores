@@ -107,9 +107,12 @@ export default async function orderPlacedHandler({
       await createOrderPaymentCollectionAutorizedWorkflow(container).run({
         input: {
           orderId: childOrder.id,
-          amount: paymentCollection.amount as number,
+          amount: paymentCollection.amount,
+          authorized_amount: paymentCollection.authorized_amount,
+          captured_amount: paymentCollection.captured_amount,
           currencyCode: paymentCollection.currency_code,
           regionId: paymentCollection.region_id,
+          status: paymentCollection.status,
         },
       });
 
