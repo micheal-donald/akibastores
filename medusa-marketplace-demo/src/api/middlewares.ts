@@ -37,7 +37,19 @@ export default defineMiddlewares({
         moveIdsToQueryFromFilterableFields,
       ],
     },
-
+    {
+      method: ["GET"],
+      matcher: "/admin/users",
+      middlewares: [
+        addStoreIdToFilterableFields,
+        maybeApplyLinkFilter({
+          entryPoint: "user_store",
+          resourceId: "user_id",
+          filterableField: "store_id",
+        }),
+        moveIdsToQueryFromFilterableFields,
+      ],
+    },
     {
       method: ["GET"],
       matcher: "/admin/stores",
