@@ -1,23 +1,21 @@
-version: '3'
-
 services:
-
   medusa:
     build:
       context: ./medusa-marketplace-demo
       dockerfile: Dockerfile
-    container_name: ${PROJECT_NAME:-marketplace}-medusa
+    container_name: akibastores-medusa
     depends_on:
       - postgres
-    restart: always
+    restart: unless-stopped
     ports:
-      - 9000:9000
+      - "9000:9000"
     volumes:
       - ./medusa-marketplace-demo/.env.docker:/application/.env
     command: sh -c "npx medusa db:setup --db marketplace && yarn dev"
     networks:
-      - internal
+      - akibastores_network
 
 networks:
-  internal:
+  akibastores_network:
     external: true
+    name: akibastores_network

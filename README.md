@@ -9,7 +9,41 @@ Detailed article on Medium:
 ![1_EMHanavMVUIrwCw4_ROoiw](https://github.com/user-attachments/assets/c2cee973-7704-4843-8da4-8c5e877cdc8e)
 
 
-## How to run 
+## How to run akiba store
+
+## Akiba Stores
+Put everything in place
+Run docker-compose up --build
+Access:
+
+Backend: http://localhost:9000
+Storefront: http://localhost:3000
+Database: localhost:5432 
+
+## Creating Super Admin
+# Use curl to create super admin
+curl -X POST http://localhost:9000/create-super-store \
+  -d '{
+    "email": "superadmin@admin.com",
+    "password": "secure-password-here",
+    "store_name": "SUPER ADMIN STORE"
+  }' \
+  -H 'Content-Type: application/json' \
+  -H 'Authorization: your-secure-admin-key-123'
+# First, authenticate:
+curl -X POST http://localhost:9000/admin/auth \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "email": "superadmin@admin.com",
+    "password": "secure-password-here"
+  }'
+# Create publishable key via API
+curl -X POST http://localhost:9000/admin/publishable-api-keys \
+  -H 'Content-Type: application/json' \
+  -H 'Cookie: connect.sid=your_session_cookie' \
+  -d '{
+    "title": "Marketplace Publishable Key"
+  }'
 
 ### Option 1: All in one
 

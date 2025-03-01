@@ -1,0 +1,26 @@
+services:
+  postgres:
+    image: postgres:15.3-alpine
+    container_name: akibastores-postgres
+    environment:
+      POSTGRES_DB: marketplace
+      POSTGRES_USER: marketplace
+      POSTGRES_PASSWORD: super-secure-password
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_INITDB_ARGS: -E UTF8 --locale=C
+    command: postgres -cshared_preload_libraries=pg_stat_statements
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - akibastores_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+    name: akibastores_postgres_data
+
+networks:
+  akibastores_network:
+    name: akibastores_network

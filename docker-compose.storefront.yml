@@ -1,0 +1,14 @@
+services:
+  storefront:
+    build:
+      context: ./medusa-storefront
+      dockerfile: Dockerfile
+    container_name: akibastores-storefront
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://medusa:9000
+    networks:
+      - akibastores_network
+    depends_on:
+      - medusa

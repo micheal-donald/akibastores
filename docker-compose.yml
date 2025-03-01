@@ -1,26 +1,63 @@
-version: '3'
 services:
   postgres:
-    image: postgres:${POSTGRES_VERSION:-15.3-alpine}
-    container_name: ${PROJECT_NAME:-marketplace-db}-postgres
+    image: postgres:15.3-alpine
+    container_name: akibastores-postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-marketplace}
-      POSTGRES_USER: ${POSTGRES_USER:-marketplace}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-super-secure-password}
-      PGDATA: '/var/lib/postgresql/data'
-      POSTGRES_INITDB_ARGS: '-E UTF8 --locale=C'
-    command: ['postgres', '-cshared_preload_libraries=pg_stat_statements']
+      POSTGRES_DB: marketplace
+      POSTGRES_USER: marketplace
+      POSTGRES_PASSWORD: super-secure-password
+      PGDATA: /var/lib/postgresql/data
+      POSTGRES_INITDB_ARGS: -E UTF8 --locale=C
+    command: postgres -cshared_preload_libraries=pg_stat_statements
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
-      - marketplace-db-data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     networks:
-      - internal
+      - akibastores_network
+    restart: unless-stopped
 
-networks:
-  internal:
-    name: ${PROJECT_NAME:-marketplace}
+  medusa:
+    build:
+      context: ./medusa-marketplace-demo
+      dockerfile: Dockerfile
+    container_name: akibastores-medusa
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    ports:
+      - "9000:9000"
+    volumes:
+      - ./medusa-marketplace-demo/.env.docker:/application/.env
+    command: sh -c "npx medusa db:setup --db marketplace && yarn dev"
+    networks:
+      - akibastores_network
+
+  storefront:
+    build:
+      context: ./medusa-storefront
+      dockerfile: Dockerfile
+    container_name: akibastores-storefront
+    ports:
+      - "8000:8000"
+    environment:
+      - MEDUSA_BACKEND_URL=http://medusa:9000 
+      - NEXT_PUBLIC_MEDUSA_BACKEND_URL=http://medusa:9000
+      - NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY=${NEXT_PUBLIC_MEDUSA_PUBLISHABLE_KEY:-pk_71d161680980d446caa673b7e54347dbaa28af1bb6920706bf9652eaee2f4ceb}
+      - NEXT_PUBLIC_DEFAULT_REGION=us
+    networks:
+      - akibastores_network
+    depends_on:
+      - medusa
+    volumes:
+      - ./medusa-storefront:/app
+      - /app/node_modules
+    command: sh -c "npm run dev"
 
 volumes:
-  marketplace-db-data:
-    name: ${POSTGRES_VOLUME_NAME:-marketplace-db-data}
+  postgres_data:
+    name: akibastores_postgres_data
+
+networks:
+  akibastores_network:
+    name: akibastores_network
