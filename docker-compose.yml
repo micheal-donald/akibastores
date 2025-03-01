@@ -34,7 +34,7 @@ services:
       - akibastores_network
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgres://marketplace:super-secure-password@postgres:5432/marketplace
+      - DATABASE_URL=postgres://marketplace:super-secure-password@postgres:5432/marketplace?sslmode=disable
       - STORE_CORS=http://storefront:8000,http://localhost:8000
       - JWT_SECRET=supersecret
       - COOKIE_SECRET=supersecret
