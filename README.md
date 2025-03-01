@@ -18,7 +18,7 @@ Access:
 
 Backend: http://localhost:9000
 Storefront: http://localhost:3000
-Database: localhost:5432 
+Database: localhost:5433 
 
 ## Creating Super Admin
 # Use curl to create super admin
